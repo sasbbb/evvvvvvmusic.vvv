@@ -46,7 +46,7 @@ int main(void)
 		fwrite(buf, 1, hdr[i].size, m);
 		fclose(m);
 		free(buf);
-		printf("extracted \"%s\"\n", hdr[i].name);
+		printf("extracted %s\n", hdr[i].name);
 	}
 	free(hdr);
 	fclose(f);
