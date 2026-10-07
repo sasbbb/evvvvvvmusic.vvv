@@ -17,7 +17,7 @@ int extract(const char *filename)
 	FILE *f = fopen(filename, "rb");
 	if (f == NULL) {
 		fprintf(stderr, "failed to open file %s\n", filename);
-		return 0;
+		return 1;
 	}
 
 	struct header *hdr = malloc(sizeof(*hdr)*NUM_HEADERS);
