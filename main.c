@@ -23,6 +23,7 @@ int extract(const char *filename)
 	struct header *hdr = malloc(sizeof(*hdr)*NUM_HEADERS);
 	if (hdr == NULL) {
 		fprintf(stderr, "failed to allocate memory\n");
+		fclose(f);
 		return 1;
 	}
 
@@ -37,12 +38,17 @@ int extract(const char *filename)
 		FILE *m = fopen(hdr[i].name, "wb");
 		if (m == NULL) {
 			fprintf(stderr, "failed to open file %s\n", hdr[i].name);
+			free(hdr);
+			fclose(f);
 			return 1;
 		}
 
 		char *buf = malloc(hdr[i].size);
 		if (buf == NULL) {
 			fprintf(stderr, "failed to allocate memory\n");
+			free(hdr);
+			fclose(f);
+			fclose(m);
 			return 1;
 		}
 
@@ -50,6 +56,7 @@ int extract(const char *filename)
 		fwrite(buf, 1, hdr[i].size, m);
 		fclose(m);
 		free(buf);
+
 		printf("extracted %s\n", hdr[i].name);
 	}
 
